@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Navicat_Keygen_Patch_By_DFoX.Properties;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
@@ -910,14 +910,12 @@ namespace Navicat_Keygen_Patch_By_DFoX
             string pathdir = Path.GetDirectoryName(file);
             bool is64bit = filea64bit(file);
             string libcc = pathdir + @"\libcc.dll";
-            bool libccok1 = false;
-            bool libccok2 = false;
+            bool libccok1 = true;
+            bool libccok2 = true;
             if (File.Exists(libcc))
             {
                 bool is64bitlibcc = filea64bit(libcc);
                 byte[] filearrlibcc = File.ReadAllBytes(libcc);
-                int cntlibcc = 0;
-                int cntlibcc2 = 0;
                 int offsetHexlibcc = 0;
                 byte[][] libcc_c =
                 {
@@ -941,13 +939,15 @@ namespace Navicat_Keygen_Patch_By_DFoX
                     offsetHexlibcc = cercaBytes(filearrlibcc, libcc_c[i], 0, filearrlibcc.Length);
                     if (offsetHexlibcc != -1)
                     {
-                        cntlibcc++;
                         for (int p = 0; p < libcc_s[i].Length; p++)
                             filearrlibcc[offsetHexlibcc + p] = libcc_s[i][p];
                     }
+                    else
+                    {
+                        libccok1 = false;
+                        break;
+                    }
                 }
-                if (cntlibcc == libcc_c.Length) //5 - Patcho il File
-                    libccok1 = true;
                 offsetHexlibcc = 0;
                 if (is64bitlibcc)
                 {
@@ -961,20 +961,20 @@ namespace Navicat_Keygen_Patch_By_DFoX
                             offsetHexlibcc = cercaBytes(filearrlibcc, tmpdfxc, offsetHexlibcc + 5, filearrlibcc.Length);
                             if (offsetHexlibcc != -1)
                             {
-                                cntlibcc2++;
                                 for (int p2 = 0; p2 < tmpdfxs.Length; p2++)
                                     filearrlibcc[offsetHexlibcc + p2] = tmpdfxs[p2];
                             }
                             else
+                            {
+                                libccok2 = false;
                                 break;
+                            }
                         }
                         catch
                         {
                             //Nothing
                         }
                     }
-                    if (cntlibcc2 == a2.Length) //391 - Patcho il File
-                        libccok2 = true;
                 }
                 else
                 {
@@ -1006,20 +1006,20 @@ namespace Navicat_Keygen_Patch_By_DFoX
                             offsetHexlibcc = cercaBytes(filearrlibcc, tmpdfxc, offsetHexlibcc + add, filearrlibcc.Length);
                             if (offsetHexlibcc != -1)
                             {
-                                cntlibcc2++;
                                 for (int p2 = 0; p2 < tmpdfxs.Length; p2++)
                                     filearrlibcc[offsetHexlibcc + p2] = tmpdfxs[p2];
                             }
                             else
+                            {
+                                libccok2 = false;
                                 break;
+                            }
                         }
                         catch
                         {
                             //Nothing
                         }
                     }
-                    if (cntlibcc2 == a2.Length) //391 - Patcho il File
-                        libccok2 = true;
                 }
                 if (libccok1 || libccok2)
                 {
@@ -1038,8 +1038,6 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 }
                 finale(libcc, filearrlibcc);
             }
-            //Fine
-            //}
             byte[] filearr = File.ReadAllBytes(file);
             if (controlloBackup.Checked == true)
             {
@@ -1047,16 +1045,11 @@ namespace Navicat_Keygen_Patch_By_DFoX
                     File.Delete(file + ".BAK");
                 File.Copy(file, file + ".BAK");
             }
-            int cnt = 0;
             int offsetHex = cercaBytes(filearr, a, 0, filearr.Length);
             if (offsetHex != -1)
             {
-                cnt++;
                 for (int p = 0; p < b.Length; p++)
                     filearr[offsetHex + p] = b[p];
-            }
-            if (cnt > 0) // Patcho il File
-            {
                 finale(file, filearr);
             }
             else
@@ -1158,7 +1151,6 @@ namespace Navicat_Keygen_Patch_By_DFoX
             int indiceFine = contatore > 0 ? Math.Min(indiceDiPartenza + contatore, array.Length) : array.Length;
             int dfx = 0;
             int ultimoDfx = 0;
-
             while (i < indiceFine)
             {
                 ultimoDfx = dfx;
