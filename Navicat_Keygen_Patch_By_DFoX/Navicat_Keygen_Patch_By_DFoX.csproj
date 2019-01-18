@@ -34,11 +34,12 @@
   <PropertyGroup>
     <ApplicationIcon>navicat_MAINICON.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <StartupObject>Navicat_Keygen_Patch_By_DFoX.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
@@ -101,11 +102,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\NP_x64.exe" />
+    <None Include="Resources\NP_x32.exe" />
     <EmbeddedResource Include="Newtonsoft.Json.dll" />
     <EmbeddedResource Include="BouncyCastle.Crypto.dll" />
     <Content Include="navicat_MAINICON.ico" />
     <None Include="Resources\MongoDB.ico" />
     <None Include="Resources\RegPrivateKey.pem" />
+    <None Include="Resources\RegPrivateKeyNP.pem" />
     <None Include="Resources\SQLite.ico" />
     <None Include="Resources\ReportViewer.ico" />
     <None Include="Resources\PostgreSQL.ico" />

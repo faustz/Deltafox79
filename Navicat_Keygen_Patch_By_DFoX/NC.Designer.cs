@@ -794,7 +794,7 @@
             this.MinimumSize = new System.Drawing.Size(594, 621);
             this.Name = "FNavicat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Navicat Products - Patch/Keygen v4.2";
+            this.Text = "Navicat Products - Patch/Keygen v4.3";
             this.Load += new System.EventHandler(this.NC_Load);
             this.g1.ResumeLayout(false);
             this.g1.PerformLayout();
