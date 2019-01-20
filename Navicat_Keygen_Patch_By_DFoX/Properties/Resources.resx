@@ -151,9 +151,6 @@
   <data name="SQLserver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SQLserver.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RegPrivateKey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RegPrivateKey.pem;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="MongoDB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MongoDB.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -162,8 +159,5 @@
   </data>
   <data name="NP_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NP_x64.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RegPrivateKeyNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RegPrivateKeyNP.pem;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

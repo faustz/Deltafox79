@@ -108,8 +108,6 @@
     <EmbeddedResource Include="BouncyCastle.Crypto.dll" />
     <Content Include="navicat_MAINICON.ico" />
     <None Include="Resources\MongoDB.ico" />
-    <None Include="Resources\RegPrivateKey.pem" />
-    <None Include="Resources\RegPrivateKeyNP.pem" />
     <None Include="Resources\SQLite.ico" />
     <None Include="Resources\ReportViewer.ico" />
     <None Include="Resources\PostgreSQL.ico" />
