@@ -481,7 +481,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
             string npk = dirtmp + "RegPrivateKey.pem";
             if (!File.Exists(npk))
             {
-                MessageBox.Show("Repatch App for Generate Correct Rsa public Key..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Re-Patch App for Generate Correct Rsa Public Key..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             byte[] decrypt64rq = null;
@@ -926,6 +926,16 @@ namespace Navicat_Keygen_Patch_By_DFoX
             Thread.Sleep(200);
             return;
         }
+        private void tp()
+        {
+            Process[] np64 = Process.GetProcessesByName("NP_x64");
+            Process[] np32 = Process.GetProcessesByName("NP_x32");
+            if (np64.Length > 0)
+                terminaProcesso(np64);
+            if (np32.Length > 0)
+                terminaProcesso(np32);
+            return;
+        }
         private void PatchewNV(string file)
         {
             torganization.Text = "Generating new RSA private key, it may take a long time...";
@@ -945,11 +955,8 @@ namespace Navicat_Keygen_Patch_By_DFoX
             }
             puhost(patchhost.Checked ? false : true);
             bool is64bit = filea64bit(file);
-            string np3264 = is64bit ? "NP_x64.exe" : "NP_x32.exe";
-            Process[] pr = Process.GetProcessesByName(np3264.Replace(".exe", ""));
-            if (pr.Length > 0)
-                terminaProcesso(pr);
-            string np = dirtmp + np3264;
+            tp();
+            string np = dirtmp + (is64bit ? "NP_x64.exe" : "NP_x32.exe");
             if (File.Exists(np))
                 File.Delete(np);
             File.WriteAllBytes(np, (is64bit ? Resources.NP_x64 : Resources.NP_x32));
@@ -968,15 +975,19 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 p.StartInfo.Verb = "runas";
             p.StartInfo.Arguments = " \"" + Path.GetDirectoryName(file) + "\"";
             p.Start();
-            string error = p.StandardOutput.ReadToEnd();
-            if (error.Contains("Patch has been done successfully"))
+            using (var timer = new System.Threading.Timer(delegate { tp(); }, null, 15000, Timeout.Infinite))
             {
-                File.SetAttributes(npk, FileAttributes.Hidden);
-                torganization.Text = "DeFconX";
-                MessageBox.Show(Path.GetFileName(file) + ((!is64bit) ? " - x32 -> " : " - x64 -> ") + " Cracked!.", "Info...", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                string error = p.StandardOutput.ReadToEnd();
+                if (error.Contains("Patch has been done successfully"))
+                {
+                    File.SetAttributes(npk, FileAttributes.Hidden);
+                    MessageBox.Show(Path.GetFileName(file) + ((!is64bit) ? " - x32 -> " : " - x64 -> ") + " Cracked!.", "Info...", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                else
+                    MessageBox.Show("No All Pattern Found!\nFile Already Patched?", "Info", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
-            else
-                MessageBox.Show("No All Pattern Found!\nFile Already Patched?", "Info", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            tp();
+            torganization.Text = "DeFconX";
             if (File.Exists(np))
                 File.Delete(np);
             p.Close();
