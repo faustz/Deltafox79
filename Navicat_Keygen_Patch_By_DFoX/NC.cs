@@ -43,6 +43,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
         private string hostPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"drivers\etc\hosts");
         private string Serial = String.Empty;
         private string dirtmp = (Path.GetTempPath() != null) ? Path.GetTempPath() : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string pemmac = String.Empty;
 
         [System.Runtime.InteropServices.DllImport("Imagehlp.dll")]
         private static extern bool ImageRemoveCertificate(IntPtr handle, int index);
@@ -461,6 +462,21 @@ namespace Navicat_Keygen_Patch_By_DFoX
         {
             try
             {
+                if (cMac.Checked && pemmac == String.Empty)
+                {
+                    OpenFileDialog apriDialogoFile = new OpenFileDialog();
+                    apriDialogoFile.Filter = "File pem|*.pem";
+                    apriDialogoFile.Title = "Select the file : " + "\"pem\"";
+                    apriDialogoFile.FilterIndex = 1;
+                    apriDialogoFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    apriDialogoFile.RestoreDirectory = true;
+                    if (apriDialogoFile.ShowDialog() == DialogResult.OK)
+                    {
+                        pemmac = apriDialogoFile.FileName;
+                    }
+                    else
+                        return;
+                }
                 generateactivation_DFoX();
             }
             catch
@@ -478,10 +494,11 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 MessageBox.Show("Generate First a Serial...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string npk = dirtmp + "RegPrivateKey.pem";
+            string npk = cMac.Checked ? pemmac : dirtmp + "RegPrivateKey.pem";
             if (!File.Exists(npk))
             {
-                MessageBox.Show("Re-Patch App for Generate Correct Rsa Public Key..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pemmac = String.Empty;
+                MessageBox.Show("Rsa Public Key not Find..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             byte[] decrypt64rq = null;
@@ -1400,6 +1417,9 @@ namespace Navicat_Keygen_Patch_By_DFoX
         {
             if (cMac.Checked)
             {
+                g1.Enabled = false;
+                cautoi.Checked = false;
+                cautoi.Enabled = false;
                 EncodeTable = "ABCDEFGH8JKLMN9PQRSTUVWXYZ234567";
                 trequestcode.Enabled = true;
                 tactivationcode.Enabled = true;
@@ -1411,6 +1431,9 @@ namespace Navicat_Keygen_Patch_By_DFoX
             }
             else
             {
+                g1.Enabled = true;
+                cautoi.Checked = true;
+                cautoi.Enabled = true;
                 tserial.Text = String.Empty;
                 trequestcode.Text = String.Empty;
                 tactivationcode.Text = String.Empty;
