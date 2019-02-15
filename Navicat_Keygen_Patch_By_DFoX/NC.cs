@@ -43,7 +43,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
         private string hostPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"drivers\etc\hosts");
         private string Serial = String.Empty;
         private string dirtmp = (Path.GetTempPath() != null) ? Path.GetTempPath() : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        private string pemmac = String.Empty;
+        private string pemmaclin = String.Empty;
 
         [System.Runtime.InteropServices.DllImport("Imagehlp.dll")]
         private static extern bool ImageRemoveCertificate(IntPtr handle, int index);
@@ -462,17 +462,17 @@ namespace Navicat_Keygen_Patch_By_DFoX
         {
             try
             {
-                if (cMac.Checked && pemmac == String.Empty)
+                if ((cMac.Checked || clin.Checked) && pemmaclin == String.Empty)
                 {
                     OpenFileDialog apriDialogoFile = new OpenFileDialog();
                     apriDialogoFile.Filter = "File pem|*.pem";
                     apriDialogoFile.Title = "Select the file : " + "\"pem\"";
                     apriDialogoFile.FilterIndex = 1;
-                    apriDialogoFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    apriDialogoFile.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                     apriDialogoFile.RestoreDirectory = true;
                     if (apriDialogoFile.ShowDialog() == DialogResult.OK)
                     {
-                        pemmac = apriDialogoFile.FileName;
+                        pemmaclin = apriDialogoFile.FileName;
                     }
                     else
                         return;
@@ -494,10 +494,10 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 MessageBox.Show("Generate First a Serial...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string npk = cMac.Checked ? pemmac : dirtmp + "RegPrivateKey.pem";
+            string npk = cMac.Checked ? pemmaclin : dirtmp + "RegPrivateKey.pem";
             if (!File.Exists(npk))
             {
-                pemmac = String.Empty;
+                pemmaclin = String.Empty;
                 MessageBox.Show("Rsa Public Key not Find..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -945,12 +945,13 @@ namespace Navicat_Keygen_Patch_By_DFoX
         }
         private void tp()
         {
-            Process[] np64 = Process.GetProcessesByName("NP_x64");
-            Process[] np32 = Process.GetProcessesByName("NP_x32");
-            if (np64.Length > 0)
-                terminaProcesso(np64);
-            if (np32.Length > 0)
-                terminaProcesso(np32);
+            string[] np3264 = { "NP_x64", "NP_x32" };
+            for (int p = 0; p < np3264.Length; p++)
+            {
+                Process[] pr = Process.GetProcessesByName(np3264[p]);
+                if (pr.Length > 0)
+                    terminaProcesso(pr);
+            }
             return;
         }
         private void PatchewNV(string file)
@@ -992,12 +993,21 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 p.StartInfo.Verb = "runas";
             p.StartInfo.Arguments = " \"" + Path.GetDirectoryName(file) + "\"";
             p.Start();
-            using (var timer = new System.Threading.Timer(delegate { tp(); }, null, 15000, Timeout.Infinite))
+            using (var timer = new System.Threading.Timer(delegate { tp(); }, null, 30000, Timeout.Infinite))
             {
                 string error = p.StandardOutput.ReadToEnd();
                 if (error.Contains("Patch has been done successfully"))
                 {
-                    File.SetAttributes(npk, FileAttributes.Hidden);
+                    if (clin.Checked)
+                    {
+                        string nflin = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\RegPrivateKey.pem";
+                        if (File.Exists(nflin))
+                            File.Delete(nflin);
+                        File.Copy(npk, nflin);
+                        File.Delete(npk);
+                    }
+                    else
+                        File.SetAttributes(npk, FileAttributes.Hidden);
                     MessageBox.Show(Path.GetFileName(file) + ((!is64bit) ? " - x32 -> " : " - x64 -> ") + " Cracked!.", "Info...", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else
@@ -1413,10 +1423,20 @@ namespace Navicat_Keygen_Patch_By_DFoX
         {
             ScriviHost("127.0.0.1       activate.navicat.com", "activate.navicat.com", pou);
         }
+        private void clin_Click(object sender, EventArgs e)
+        {
+            cMac.Checked = false;
+            bool ecl = !clin.Checked;
+            cautoi.Checked = ecl;
+            cautoi.Enabled = ecl;
+            if (!ecl)
+                pemmaclin = String.Empty;
+        }
         private void cMac_CheckedChanged(object sender, EventArgs e)
         {
             if (cMac.Checked)
             {
+                clin.Checked = false;
                 g1.Enabled = false;
                 cautoi.Checked = false;
                 cautoi.Enabled = false;
@@ -1431,6 +1451,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
             }
             else
             {
+                pemmaclin = String.Empty;
                 g1.Enabled = true;
                 cautoi.Checked = true;
                 cautoi.Enabled = true;
@@ -1455,13 +1476,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
 
         private void FNavicat_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string[] np3264 = { "NP_x64", "NP_x32" };
-            for (int p = 0; p < np3264.Length; p++)
-            {
-                Process[] pr = Process.GetProcessesByName(np3264[p]);
-                if (pr.Length > 0)
-                    terminaProcesso(pr);
-            }
+            tp();
         }
     }
 }

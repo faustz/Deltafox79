@@ -65,6 +65,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.rnfr30 = new System.Windows.Forms.RadioButton();
             this.g4 = new System.Windows.Forms.GroupBox();
+            this.clin = new System.Windows.Forms.CheckBox();
             this.cautoi = new System.Windows.Forms.CheckBox();
             this.bcopyrc = new System.Windows.Forms.Button();
             this.bpaste = new System.Windows.Forms.Button();
@@ -271,7 +272,7 @@
             this.cMac.AutoSize = true;
             this.cMac.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cMac.ForeColor = System.Drawing.Color.Teal;
-            this.cMac.Location = new System.Drawing.Point(6, 123);
+            this.cMac.Location = new System.Drawing.Point(6, 111);
             this.cMac.Name = "cMac";
             this.cMac.Size = new System.Drawing.Size(50, 17);
             this.cMac.TabIndex = 25;
@@ -541,6 +542,7 @@
             // 
             // g4
             // 
+            this.g4.Controls.Add(this.clin);
             this.g4.Controls.Add(this.cautoi);
             this.g4.Controls.Add(this.bcopyrc);
             this.g4.Controls.Add(this.cMac);
@@ -570,6 +572,19 @@
             this.g4.TabIndex = 75;
             this.g4.TabStop = false;
             this.g4.Text = "4) - Keygen / Offline Activation";
+            // 
+            // clin
+            // 
+            this.clin.AutoSize = true;
+            this.clin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.clin.ForeColor = System.Drawing.Color.Teal;
+            this.clin.Location = new System.Drawing.Point(5, 134);
+            this.clin.Name = "clin";
+            this.clin.Size = new System.Drawing.Size(56, 17);
+            this.clin.TabIndex = 89;
+            this.clin.Text = "Linux";
+            this.clin.UseVisualStyleBackColor = true;
+            this.clin.Click += new System.EventHandler(this.clin_Click);
             // 
             // cautoi
             // 
@@ -794,7 +809,7 @@
             this.MinimumSize = new System.Drawing.Size(594, 621);
             this.Name = "FNavicat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Navicat Products - Patch/Keygen v4.7";
+            this.Text = "Navicat Products - Patch/Keygen v4.8";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FNavicat_FormClosing);
             this.Load += new System.EventHandler(this.NC_Load);
             this.g1.ResumeLayout(false);
@@ -868,6 +883,7 @@
         private System.Windows.Forms.ComboBox combolang;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox clin;
     }
 }
 
