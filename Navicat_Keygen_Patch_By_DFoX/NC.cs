@@ -1427,6 +1427,8 @@ namespace Navicat_Keygen_Patch_By_DFoX
         {
             cMac.Checked = false;
             bool ecl = !clin.Checked;
+            patchhost.Checked = ecl;
+            patchhost.Enabled = ecl;
             cautoi.Checked = ecl;
             cautoi.Enabled = ecl;
             if (!ecl)
