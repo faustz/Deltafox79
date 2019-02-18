@@ -1390,7 +1390,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                         {
                             using (StreamWriter stream = new StreamWriter(hostPath, true, Encoding.Default))
                             {
-                                stream.WriteLine(cosascrivere);
+                                stream.WriteLine(Environment.NewLine + cosascrivere);
                             }
                         }
                     }
