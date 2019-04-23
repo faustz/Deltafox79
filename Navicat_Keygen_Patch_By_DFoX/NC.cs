@@ -494,7 +494,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 MessageBox.Show("Generate First a Serial...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string npk = cMac.Checked ? pemmaclin : dirtmp + "RegPrivateKey.pem";
+            string npk = cMac.Checked || clin.Checked ? pemmaclin : dirtmp + "RegPrivateKey.pem";
             if (!File.Exists(npk))
             {
                 pemmaclin = String.Empty;
