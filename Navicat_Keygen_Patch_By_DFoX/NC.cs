@@ -504,6 +504,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
             byte[] decrypt64rq = null;
             dynamic jsonnavicat = null;
             string DeviceIdentifier = null;
+            //string Platform = null;
             string snKey = null;
             StreamReader stReader = new StreamReader(npk);
             PemReader pr = new PemReader(stReader);
@@ -545,6 +546,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                     {
                         jsonnavicat = JsonConvert.DeserializeObject<dynamic>(dec);
                         DeviceIdentifier = jsonnavicat.DI;
+                        //Platform = jsonnavicat.P;
                         snKey = jsonnavicat.K;
                     }
                 }
@@ -993,7 +995,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 p.StartInfo.Verb = "runas";
             p.StartInfo.Arguments = " \"" + Path.GetDirectoryName(file) + "\"";
             p.Start();
-            using (var timer = new System.Threading.Timer(delegate { tp(); }, null, 30000, Timeout.Infinite))
+            using (var timer = new System.Threading.Timer(delegate { tp(); }, null, 60000, Timeout.Infinite))
             {
                 string error = p.StandardOutput.ReadToEnd();
                 if (error.Contains("Patch has been done successfully"))
@@ -1244,6 +1246,8 @@ namespace Navicat_Keygen_Patch_By_DFoX
         private void NC_Load(object sender, EventArgs e)
         {
             this.Icon = ico;
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = String.Format("Navicat Products - Patch/Keygen v{0}.{1}", version.Major, version.Minor);
             CultureInfo ci = CultureInfo.InstalledUICulture;
             string ln = ci.Name.ToString().Trim();
             for (int cmm = 0; cmm < 0xFF + 1; cmm++)
@@ -1390,7 +1394,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                         {
                             using (StreamWriter stream = new StreamWriter(hostPath, true, Encoding.Default))
                             {
-                                stream.WriteLine(Environment.NewLine + cosascrivere);
+                                stream.WriteLine(cosascrivere);
                             }
                         }
                     }
