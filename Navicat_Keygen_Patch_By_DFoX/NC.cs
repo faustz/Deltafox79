@@ -1443,7 +1443,6 @@ namespace Navicat_Keygen_Patch_By_DFoX
             if (cMac.Checked)
             {
                 clin.Checked = false;
-                g1.Enabled = false;
                 cautoi.Checked = false;
                 cautoi.Enabled = false;
                 EncodeTable = "ABCDEFGH8JKLMN9PQRSTUVWXYZ234567";
@@ -1458,7 +1457,6 @@ namespace Navicat_Keygen_Patch_By_DFoX
             else
             {
                 pemmaclin = String.Empty;
-                g1.Enabled = true;
                 cautoi.Checked = true;
                 cautoi.Enabled = true;
                 tserial.Text = String.Empty;
