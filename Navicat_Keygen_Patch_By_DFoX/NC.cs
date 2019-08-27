@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using Navicat_Keygen_Patch_By_DFoX.Properties;
-using Newtonsoft.Json;
+﻿using Navicat_Keygen_Patch_By_DFoX.Properties;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
@@ -17,6 +15,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace Navicat_Keygen_Patch_By_DFoX
@@ -502,9 +501,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
                 return;
             }
             byte[] decrypt64rq = null;
-            dynamic jsonnavicat = null;
             string DeviceIdentifier = null;
-            //string Platform = null;
             string snKey = null;
             StreamReader stReader = new StreamReader(npk);
             PemReader pr = new PemReader(stReader);
@@ -544,10 +541,10 @@ namespace Navicat_Keygen_Patch_By_DFoX
                     string dec = Encoding.Default.GetString(eng.ProcessBlock(decrypt64rq, 0, decrypt64rq.Length));
                     if (rn12.Checked || resse12.Checked)
                     {
-                        jsonnavicat = JsonConvert.DeserializeObject<dynamic>(dec);
-                        DeviceIdentifier = jsonnavicat.DI;
-                        //Platform = jsonnavicat.P;
-                        snKey = jsonnavicat.K;
+                        var json = new JavaScriptSerializer();
+                        dynamic dfxj = json.Deserialize<Dictionary<string, object>>(dec);
+                        DeviceIdentifier = dfxj["DI"];
+                        snKey = dfxj["K"];
                     }
                 }
                 catch
@@ -578,7 +575,7 @@ namespace Navicat_Keygen_Patch_By_DFoX
             }
             else
             {
-                lic = String.Format("{{\"K\":\"{0}\", \"N\":\"{1}\", \"O\":\"{2}\", \"T\":{3}}}"/*, \"P\":\"{2}\"*/, snKey != null ? snKey : tserial.Text.Trim().Replace("-", ""), tname.Text.Trim(), torganization.Text.Trim(), tval/*, Platform != null ? Platform : cMac.Checked ? "Mac 10.13" : "WIN 8"*/);
+                lic = String.Format("{{\"K\":\"{0}\", \"N\":\"{1}\", \"O\":\"{2}\", \"T\":{3}}}", snKey != null ? snKey : tserial.Text.Trim().Replace("-", ""), tname.Text.Trim(), torganization.Text.Trim(), tval/*, Platform != null ? Platform : cMac.Checked ? "Mac 10.13" : "WIN 8"*/);
                 eng.Init(true, keys.Private);
                 bytelic = Encoding.ASCII.GetBytes(lic);
                 licenza = eng.ProcessBlock(bytelic, 0, bytelic.Length);
@@ -1191,58 +1188,13 @@ namespace Navicat_Keygen_Patch_By_DFoX
 
         private void linna_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            apriUrl(@"https://navicat.com");
+            Process.Start(@"https://navicat.com");
         }
 
         private void linkur_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            apriUrl(@"https://www.dfox.it");
+            Process.Start(@"https://www.dfox.it");
         }
-        private static string ottieniLaPathBrowser()
-        {
-            string name = string.Empty;
-            RegistryKey regKey = null;
-            try
-            {
-                var regDefault = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.htm\\UserChoice", false);
-                var stringDefault = regDefault.GetValue("ProgId");
-
-                regKey = Registry.ClassesRoot.OpenSubKey(stringDefault + "\\shell\\open\\command", false);
-                name = regKey.GetValue(null).ToString().ToLower().Replace("" + (char)34, "");
-
-                if (!name.EndsWith("exe"))
-                    name = name.Substring(0, name.LastIndexOf(".exe") + 4);
-
-            }
-            catch
-            {
-                return String.Empty;
-            }
-            finally
-            {
-                if (regKey != null)
-                    regKey.Close();
-            }
-            return name;
-        }
-        public void apriUrl(string url)
-        {
-            try
-            {
-                string browserPath = ottieniLaPathBrowser();
-                if (browserPath == string.Empty)
-                    browserPath = "iexplore";
-                Process process = new Process();
-                process.StartInfo = new ProcessStartInfo(browserPath);
-                process.StartInfo.Arguments = url;
-                process.Start();
-            }
-            catch
-            {
-                //Nothing
-            }
-        }
-
         private void NC_Load(object sender, EventArgs e)
         {
             this.Icon = ico;
